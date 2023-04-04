@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async Await</title>
+</head>
+<body>
+    
+    <script>
+        console.log(`Person1: Shows Ticket`);
+        console.log(`Person2: Shows Ticket`);
+
+        const preMovie=async()=> {
+        const wifeBringingTicks= new Promise((resolve, reject)=>{
+            setTimeout(()=> resolve("ticket"), 3000);
+        })
+
+        const getPopcorn= new Promise((resolve, reject)=> resolve("popcorns"));
+        const addButter= new Promise((resolve, reject)=> resolve("butterrr"));
+        let getColdDrink= new Promise((resolve, reject)=> resolve("Cold drinks"));
+
+        let ticket= await wifeBringingTicks;
+        console.log(`wife: I have the ${ticket}`);
+        console.log(`husband: we should go in.`);
+        console.log(`wife: no, I am hungry`);
+
+        let popcorn= await getPopcorn;
+        console.log(`husband: i got some ${popcorn}`);
+        console.log(`husband: we should go in`);
+        console.log(`wife: I need butter on my popcorn`);
+
+        let butter= await addButter;
+        console.log(`husband: I got some ${butter} on the popcorn`);
+        console.log(`husband: anything else darling?`);
+        console.log(`wife: lets go! We are getting late. We forgot about the cold drinks!!`);
+        console.log(`husband: thank you for the reminder honey :P`);
+
+        let coldDrink= await getColdDrink;
+        console.log(`husband: I got the ${coldDrink} `);
+        console.log(`husband: All done now?`);
+        console.log(`wife: Yes! lets go now!!.`);
+
+        return ticket;
+        }
+        preMovie().then((m)=> console.log(`Person3: Shows ${m}`));
+
+        console.log(`Person4: Shows Ticket`);
+        console.log(`Person5: Shows Ticket`);
+    </script>
+</body>
+</html>                                                                                          
