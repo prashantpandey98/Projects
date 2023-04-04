@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Registration Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body style="background-image: url(Background\ image.png)";>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3 style="color: orange;" >
+                            Book a call
+                        </h3>
+                        <div class="card-body"><strong>
+                                Book a call slot and our represntative will call you within 1hr of selected time.
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form onsubmit="registeruser()">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number:</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-14">
+                                    <label for="datetime">Time for Call:</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="date" class="form-control" id="date" required>
+                                        </div>
+                                        <div class="col">
+                                            <input type="time" class="form-control" id="time" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-warning btn-block ">GET A CALL</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col">
+                        Search name:<input type="text" class="form-control">
+                    </div>
+                    <div class="col">
+                        Search mail: <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function registeruser() {
+            event.preventDefault(); // prevent form submission
+
+            // get form data
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+            var date = document.getElementById("date").value;
+            var time = document.getElementById("time").value;
+
+            // display form data
+            var output = "Name: " + name + "\n" + "<br>" +
+                "Email: " + email + "\n" + "<br>" + 
+                "Phone Number: " + phone + "\n" + "<br>" +
+                "Date for call: " + date +"\n" + "<br>" +
+                "Time for call : " + time 
+            document.writeln(output);
+        };
+    </script>
+
+</body>
+
+</html>
+
+
+
