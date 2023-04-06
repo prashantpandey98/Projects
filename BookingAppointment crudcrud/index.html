@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Booking Appointment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Book an Appointment</h1>
+  </header>
+
+  <section class="container">
+    <form id="my-form">
+      <h1>Enter Details-</h1>
+      <div class="msg"></div>
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name">
+      </div>
+      <div>
+        <label for="name">Phone Number:</label>
+        <input type="tel" id="number" name="number" placeholder="+91*******">
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="abc@xyz.com">
+      </div>
+
+      <input class="btn" type="submit" value="Submit">
+
+    </form>
+
+    <ul id="users"></ul>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+  <script>
+    const form = document.querySelector('#my-form');
+    const userName = document.getElementById("name");
+    const email = document.getElementById("email");
+    const number = document.getElementById("number");
+    const userList = document.querySelector('#users');
+
+    form.addEventListener('submit', onsubmit);
+
+    function onsubmit(e) {
+      e.preventDefault();
+
+      //added user data to li
+      var li = document.createElement("li");
+      li.className = "userList";
+      var userInput = document.createTextNode(`Name-${userName.value}, Email-${email.value}, Phone no.-${number.value}`);
+      li.appendChild(userInput);
+      //add delete button to li
+      var deleteBtn = document.createElement('button');
+      deleteBtn.className = "deleteUser";
+      deleteBtn.appendChild(document.createTextNode('Delete'));
+      li.appendChild(deleteBtn);
+      //add edit button
+      var editBtn = document.createElement('button');
+      editBtn.className = "editUser";
+      editBtn.appendChild(document.createTextNode('Edit'));
+      li.appendChild(editBtn);
+      //append li to ul
+      userList.appendChild(li);
+
+
+      //assign the email as the key for the user so that each user gets added to the local storage because each mail is unique
+      const Name = userName.value;
+      const Email = email.value;
+      const PhNumber = number.value;
+      const input = {
+        Name,
+        Email,
+        PhNumber
+      }
+      // // let input1 = (`Name:${userName.value} Email-id:${email.value} Number:${number.value}`);
+      // localStorage.setItem(input.Email, JSON.stringify(input));
+      // // let finalInput = JSON.parse(localStorage.getItem(email.value));
+      // console.log(input);
+
+
+      //saving data on cloud via axios and crudcrud
+      axios.post("https://crudcrud.com/api/32fcbca733c949dca11a3b915cf04064/Users", input)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
+      //to delete user
+      var parentEle = document.getElementById('users');
+      deleteBtn.onclick = () => {
+        //  localStorage.removeItem(input.Email);
+        parentEle.removeChild(li);
+      }
+
+      //to edit user
+      var parentEle = document.getElementById('users');
+      editBtn.onclick = () => {
+        userName.value = input.Name;
+        email.value = input.Email;
+        number.value = input.PhNumber;
+        // localStorage.removeItem(input.Email);
+        parentEle.removeChild(li);
+
+      }
+
+      userName.value = "";
+      email.value = "";
+      number.value = "";
+    }
+  </script>
+</body>
+
+</html>
