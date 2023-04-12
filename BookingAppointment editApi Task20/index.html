@@ -94,7 +94,8 @@
       del.innerText = "Delete";
       let edit = document.createElement("button");
       edit.onclick = () => {
-        editUser(data._id);
+        editUser(data._id, data.name, data.email, data.number,);
+        ul.removeChild(li);
       };
       edit.innerText = "Edit";
       li.textContent = `Name :- ${data.name}, Email :- ${data.email}, PhNumber-${data.number}`;
@@ -125,12 +126,10 @@
         })
     }
 
-    function editUser(id) {
-      console.log(id);
-      let username = document.getElementById("name").value;
-      let useremail = document.getElementById("email").value;
-      let usernumber = document.getElementById("number").value;
-      
+    function editUser(id, username, useremail, usernumber, ul, li) {
+      document.getElementById("name").value = username;
+      document.getElementById("email").value = useremail;
+      document.getElementById("number").value = usernumber;
 
       axios.delete(`https://crudcrud.com/api/581d1d5122e242f2937b91a6cc6c339c/UserData/${id}`)
         .then(() => {
@@ -138,7 +137,7 @@
         }).catch((error) => {
           console.log("Error", error);
         })
-        document.getElementById("name").value = username;
+      document.getElementById("name").value = username;
       document.getElementById("email").value = useremail;
       document.getElementById("number").value = usernumber;
     }
