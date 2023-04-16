@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Admin Page</title>
+</head>
+
+<body>
+    <h2>Total Stock Value</h2>
+    <form id="form">
+        Selling Price: <input type="number" id="price">
+        Product Name: <input type="text" id="product">
+        <button>Add Product</button>
+
+    </form>
+    <ul id="pro">
+        <h3>Products-</h3>
+    </ul>
+
+    <h2 id="total"><strong>Total Value Worth of Products: Rs<p1 id="amt">0</p1></strong></h2>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+    <script>
+        let form = document.getElementById("form");
+        form.addEventListener("submit", sub);
+
+        function sub(e) {
+            e.preventDefault();
+            let price = e.target.price.value;
+            let product = e.target.product.value;
+            let ul = document.getElementById("pro");
+            let stock = {
+                price,
+                product
+            }
+            let li = document.createElement("li");
+            li.setAttribute("id", "items")
+            li.innerHTML = `${stock.price}-${stock.product}`;
+            let del = document.createElement("button");
+            del.onclick = () => {
+                deleteProduct(e._id);
+            }
+            del.innerText = "Delete Product";
+            del.className = "del";
+            li.append(del);
+            ul.appendChild(li);
+            let amount = Number(document.getElementById("amt").textContent);
+            document.getElementById("amt").innerHTML = `${amount + Number(stock.price)}`
+
+            if (price === "" || product === "") {
+                alert("Fill all fields.")
+                window.location.reload();
+            }
+            else {
+                axios.post("https://crudcrud.com/api/29bcecc2a03e4e9e8546d299d69b1c2c/Products", stock)
+                    .then((res) => {
+                        console.log(res.data)
+                        alert(`${stock.product} has been added.`)
+                        total.innerHTML = `Total Value Worth of Products: Rs${amount + Number(stock.price)}`
+                        window.location.reload();
+                    }).catch((err) => {
+                        console.log("Error:", err),
+                            alert("Failed to add product.")
+                    });
+            }
+        }
+
+        function showData(data) {
+            let price = document.getElementById("price").value;
+            let product = document.getElementById("product").value;
+            let amount = Number(document.getElementById("amt").innerHTML);
+            document.getElementById("amt").innerHTML = `${amount + Number(data.price)}`
+
+            let ul = document.getElementById("pro");
+            let li = document.createElement("li");
+            li.innerHTML = `${data.price}-${data.product}`;
+            let del = document.createElement("button");
+            del.onclick = () => {
+                deleteProduct(data._id);
+            }
+            del.innerText = "Delete Product";
+            del.className = "del";
+            li.append(del);
+            ul.appendChild(li);
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            axios.get("https://crudcrud.com/api/29bcecc2a03e4e9e8546d299d69b1c2c/Products")
+                .then((response) => {
+                    for (let i = 0; i < response.data.length; i++) {
+                        showData(response.data[i]);
+                        console.log(response.data[i])
+                    }
+                }).catch((err) => {
+                    console.log("Error:", err);
+                })
+        })
+
+        function deleteProduct(id) {
+            console.log(id);
+            axios.delete(`https://crudcrud.com/api/29bcecc2a03e4e9e8546d299d69b1c2c/Products/${id}`)
+                .then(() => {
+                    confirm(`Are you sure you want to delete item?`)
+                    window.location.reload();
+                }).catch((err) => console.log(err));
+        }
+
+    </script>
+
+</body>
+
+</html>
